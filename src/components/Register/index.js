@@ -50,7 +50,7 @@ function Register(props) {
 				<Avatar className={classes.avatar}>
 					<LockOutlinedIcon />
 				</Avatar>
-				<Typography component="h1" variant="h5">
+				<Typography variant="h5">
 					Register Account
        			</Typography>
 				<form className={classes.form} onSubmit={e => e.preventDefault() && false }>

@@ -10,6 +10,7 @@ import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const styles = theme => ({
   main: {
@@ -63,10 +64,10 @@ function Dashboard(props) {
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
-        <Typography component="h1" variant="h5">
+        <Typography variant="h5">
           Hello {firebase.getCurrentUsername()}
         </Typography>
-        <Typography component="h1" variant="h5">
+        <Typography variant="h5">
           Your job: {job ? `"${job}"` : <CircularProgress size={20} />}
         </Typography>
         <Button
@@ -78,6 +79,17 @@ function Dashboard(props) {
           className={classes.submit}
         >
           Logout
+        </Button>
+		<Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          color="primary"
+          component={Link}
+          to="/"
+          className={classes.submit}
+        >
+          Back to Home
         </Button>
       </Paper>
     </main>
