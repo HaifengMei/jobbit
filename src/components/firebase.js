@@ -35,13 +35,13 @@ class Firebase {
 		})
 	}
 
-	addJob(job) {
+	addUserType(userType) {
 		if(!this.auth.currentUser) {
 			return alert('Not authorized')
 		}
 
 		return this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).set({
-			job
+			userType
 		})
 	}
 
@@ -55,9 +55,9 @@ class Firebase {
 		return this.auth.currentUser && this.auth.currentUser.displayName
 	}
 
-	async getCurrentUserJob() {
-		const job = await this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).get()
-		return job.get('job')
+	async getCurrentUserType() {
+		const userType = await this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).get()
+		return userType.get('userType')
 	}
 }
 

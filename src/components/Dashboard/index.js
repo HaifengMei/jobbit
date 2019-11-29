@@ -44,10 +44,10 @@ const styles = theme => ({
 function Dashboard(props) {
   const { classes } = props;
 
-  const [job, setJob] = useState("");
+  const [userType, setUserType] = useState("");
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
-      firebase.getCurrentUserJob().then(setJob);
+      firebase.getCurrentUserJob().then(setUserType);
     }
   }, [firebase.getCurrentUsername()]);
 
@@ -68,7 +68,7 @@ function Dashboard(props) {
           Hello {firebase.getCurrentUsername()}
         </Typography>
         <Typography variant="h5">
-          Your job: {job ? `"${job}"` : <CircularProgress size={20} />}
+          Your userType: {userType ? `"${userType}"` : <CircularProgress size={20} />}
         </Typography>
         <Button
           type="submit"
