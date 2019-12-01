@@ -11,6 +11,7 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
+import SkillsList from "../Skills";
 
 const styles = theme => ({
   main: {
@@ -44,10 +45,10 @@ const styles = theme => ({
 function Dashboard(props) {
   const { classes } = props;
 
-  const [userType, setUserType] = useState("");
+  const [userDetails, setUserDetails] = useState(null);
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
-      firebase.getCurrentUserJob().then(setUserType);
+      firebase.getCurrentUserData().then(setUserDetails);
     }
   }, [firebase.getCurrentUsername()]);
 
@@ -64,12 +65,16 @@ function Dashboard(props) {
         <Avatar className={classes.avatar}>
           <VerifiedUserOutlined />
         </Avatar>
+        <Typography variant="h5">{firebase.getCurrentUsername()}</Typography>
         <Typography variant="h5">
-          Hello {firebase.getCurrentUsername()}
+          {userDetails ? userDetails.userType : <CircularProgress size={20} />}
         </Typography>
-        <Typography variant="h5">
-          Your userType: {userType ? `"${userType}"` : <CircularProgress size={20} />}
-        </Typography>
+        {userDetails && userDetails.skills ? (
+          <SkillsList skills={userDetails.skills} />
+        ) : (
+          <CircularProgress size={20} />
+        )}
+
         <Button
           type="submit"
           fullWidth
@@ -80,7 +85,7 @@ function Dashboard(props) {
         >
           Logout
         </Button>
-		<Button
+        <Button
           type="submit"
           fullWidth
           variant="contained"

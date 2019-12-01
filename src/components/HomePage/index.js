@@ -1,10 +1,10 @@
 import React from "react";
-import { Typography, Paper, Avatar, Button } from "@material-ui/core";
+import { Typography, Paper, Avatar, Fab } from "@material-ui/core";
 import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Link } from "react-router-dom";
 import CardMedia from "@material-ui/core/CardMedia";
-import jobbitLogo  from '../Assets/images/jobbit-logo.png';
+import jobbitLogo from "../Assets/images/jobbit-logo.png";
 
 const styles = theme => ({
   main: {
@@ -30,13 +30,15 @@ const styles = theme => ({
     margin: theme.spacing.unit,
     backgroundColor: theme.palette.secondary.main
   },
-  submit: {
-    marginTop: theme.spacing.unit * 3
+  button: {
+    marginTop: theme.spacing.unit * 3,
+    width: "50% !important"
+    // borderRadius: "10%"
   },
   media: {
-	height: 160,
-	width:300
-  },
+    height: 160,
+    width: 300
+  }
 });
 
 function HomePage(props) {
@@ -56,39 +58,39 @@ function HomePage(props) {
         <Typography variant="h5" gutterBottom>
           Welcome Job Hunters!
         </Typography>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
+        <Fab
+          variant="extended"
+          size="medium"
           color="secondary"
+          aria-label="add"
+          className={classes.button}
           component={Link}
           to="/register"
-          className={classes.submit}
         >
           Register
-        </Button>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
+        </Fab>
+        <Fab
+          variant="extended"
+          size="medium"
           color="secondary"
+          aria-label="add"
+          className={classes.button}
           component={Link}
           to="/login"
-          className={classes.submit}
         >
           Login
-        </Button>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
+        </Fab>
+        <Fab
+          variant="extended"
+          size="medium"
           color="primary"
+          aria-label="add"
+          className={classes.button}
           component={Link}
           to="/dashboard"
-          className={classes.submit}
         >
           Dashboard
-        </Button>
+        </Fab>
       </Paper>
     </main>
   );

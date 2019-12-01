@@ -3,7 +3,6 @@ import withStyles from "@material-ui/core/styles/withStyles";
 import {
   Typography,
   Paper,
-  Avatar,
   Button,
   StepContent,
   StepLabel,
@@ -12,13 +11,16 @@ import {
   FormControl,
   Input,
   InputLabel,
-  Select,
-  MenuItem
+  Radio,
+  RadioGroup,
+  FormControlLabel
 } from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import HeaderLogo from "../HeaderLogo";
 import { Link, withRouter } from "react-router-dom";
 import firebase from "../firebase";
+import RecruiterIcon from "../Assets/svg/RecruiterIcon";
+import JobHunterIcon from "../Assets/svg/JobHunterIcon";
+import SkillForm from "../../components/Skills/skillsForm";
 
 const styles = theme => ({
   main: {
@@ -40,26 +42,28 @@ const styles = theme => ({
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
       .spacing.unit * 3}px`
   },
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main
-  },
   form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
+    width: "100%" // Fix IE 11 issue.
   },
   submit: {
     marginTop: theme.spacing.unit * 3
   },
   actionsContainer: {
-    marginBottom: theme.spacing.unit*1,
+    marginBottom: theme.spacing.unit * 1
+  },
+  contentContainer: {
+    width: "100%"
   },
   button: {
-    marginTop: theme.spacing.unit*1,
-    marginRight: theme.spacing.unit*1,
+    marginTop: theme.spacing.unit * 1,
+    marginRight: theme.spacing.unit * 1
   },
-  resetContainer: {
-    padding: theme.spacing.unit*3,
+
+  imageIcon: {
+    height: "100%"
+  },
+  iconRoot: {
+    textAlign: "center"
   }
 });
 
@@ -70,6 +74,12 @@ function RegisterStepper(props) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userType, setUserType] = useState("");
+  const [skills, setSkills] = useState([
+    { id: 0, value: "Power Washing" },
+    { id: 1, value: "Sku Scrapper Cleaning" },
+    { id: 2, value: "Lawn Mowing" }
+  ]);
+  const [newSkill, setNewSkill] = useState("");
 
   const steps = getSteps();
 
@@ -88,7 +98,7 @@ function RegisterStepper(props) {
   async function onRegister() {
     try {
       await firebase.register(name, email, password);
-      await firebase.adduserType(userType);
+      await firebase.addUserData(userType, skills);
       props.history.replace("/dashboard");
     } catch (error) {
       alert(error.message);
@@ -97,27 +107,56 @@ function RegisterStepper(props) {
   }
 
   function getSteps() {
-    return ["Choose a role", "Complete account", "Complete Jobbit form"];
+    return ["Choose A Class", "Create Your Account", "Enter Your skills"];
   }
 
-  function BasicRegForm() {
-    return (
-      <form
-        className={classes.form}
-        onSubmit={e => e.preventDefault() && false}
+  const RoleForm = () => (
+    <FormControl>
+      <RadioGroup
+        id="userType"
+        name="userType"
+        value={userType}
+        onChange={e => setUserType(e.target.value)}
+        required
       >
-        <FormControl margin="normal" required fullWidth>
+        <FormControlLabel
+          value="Recruiter"
+          control={
+            <Radio
+              icon={<RecruiterIcon />}
+              checkedIcon={<RecruiterIcon color="secondary" />}
+            />
+          }
+          label="Recruiter"
+        />
+        <FormControlLabel
+          value="Job Hunter"
+          control={
+            <Radio
+              icon={<JobHunterIcon />}
+              checkedIcon={<JobHunterIcon color="secondary" />}
+            />
+          }
+          label="Job Hunter"
+        />
+      </RadioGroup>
+    </FormControl>
+  );
+
+  const AuthForm = () => {
+    return (
+      <div>
+        <FormControl required fullWidth>
           <InputLabel htmlFor="name">Name</InputLabel>
           <Input
             id="name"
             name="name"
             autoComplete="off"
-            autoFocus
             value={name}
             onChange={e => setName(e.target.value)}
           />
         </FormControl>
-        <FormControl margin="normal" required fullWidth>
+        <FormControl required fullWidth>
           <InputLabel htmlFor="email">Email Address</InputLabel>
           <Input
             id="email"
@@ -127,7 +166,7 @@ function RegisterStepper(props) {
             onChange={e => setEmail(e.target.value)}
           />
         </FormControl>
-        <FormControl margin="normal" required fullWidth>
+        <FormControl required fullWidth>
           <InputLabel htmlFor="password">Password</InputLabel>
           <Input
             name="password"
@@ -138,29 +177,62 @@ function RegisterStepper(props) {
             onChange={e => setPassword(e.target.value)}
           />
         </FormControl>
-        {/* <FormControl margin="normal" required fullWidth>
-          <InputLabel htmlFor="type">Type</InputLabel>
-          <Select
-            id="type"
-            value={userType}
-            onChange={e => setUserType(e.target.value)}
-          >
-            <MenuItem value={1}>Recruiter</MenuItem>
-            <MenuItem value={2}>userType Seeker</MenuItem>
-          </Select>
-        </FormControl> */}
-      </form>
+      </div>
     );
-  }
+  };
+
+  const addSkill = () => {
+    setSkills([
+      ...skills,
+      {
+        id: skills.length,
+        value: newSkill
+      }
+    ]);
+    setNewSkill("");
+  };
+
+  const removeSkill = idx => {
+    skills.splice(idx, 1);
+    setSkills([...skills]);
+  };
+
+  const DataForm = () => (
+    <div>
+      <FormControl margin="normal" required fullWidth>
+        <InputLabel htmlFor="password">New Skill</InputLabel>
+        <Input
+          name={newSkill}
+          id="newSkill"
+          autoComplete="off"
+          value={newSkill}
+          onChange={e => setNewSkill(e.target.value)}
+        />
+      </FormControl>
+      <ul>
+        {skills.map(skill => (
+          <li key={skill.id}>{skill.value}</li>
+        ))}
+      </ul>
+    </div>
+  );
 
   function getStepContent(step) {
     switch (step) {
       case 0:
-        return <Typography>Looking to hire or looking tor jobs?</Typography>;
+        return RoleForm();
       case 1:
-        return <BasicRegForm />;
+        return AuthForm();
       case 2:
-        return <Typography>Role specific form</Typography>;
+        return (
+          <SkillForm
+            newSkill={newSkill}
+            addSkill={addSkill}
+            setNewSkill={setNewSkill}
+            skills={skills}
+            removeSkill={removeSkill}
+          />
+        );
       default:
         return <Typography>Unknown step</Typography>;
     }
@@ -170,41 +242,48 @@ function RegisterStepper(props) {
     <main className={classes.main}>
       <Paper className={classes.paper}>
         <HeaderLogo />
+
         <Typography variant="h5">Register Account</Typography>
         <Stepper activeStep={activeStep} orientation="vertical">
           {steps.map((label, index) => (
             <Step key={label}>
               <StepLabel>{label}</StepLabel>
               <StepContent>
-                {getStepContent(index)}
-                <div className={classes.actionsContainer}>
-                  <div>
-                    <Button
-                      size="small"
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      className={classes.button}
-                    >
-                      Back
-                    </Button>
-                    <Button
-                      size="small"
-                      variant="contained"
-                      color="primary"
-                      onClick={handleNext}
-                      className={classes.button}
-                    >
-                      {activeStep === steps.length - 1 ? "Finish" : "Next"}
-                    </Button>
+                <form onSubmit={e => e.preventDefault() && false}>
+                  <div className={classes.contentContainer}>
+                    {getStepContent(index)}
                   </div>
-                </div>
+                  <div className={classes.actionsContainer}>
+                    <div>
+                      <Button
+                        size="small"
+                        disabled={activeStep === 0}
+                        onClick={handleBack}
+                        className={classes.button}
+                      >
+                        Back
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="primary"
+                        onClick={handleNext}
+                        className={classes.button}
+                      >
+                        {activeStep === steps.length - 1 ? "Finish" : "Next"}
+                      </Button>
+                    </div>
+                  </div>
+                </form>
               </StepContent>
             </Step>
           ))}
         </Stepper>
         {activeStep === steps.length && (
           <Paper square elevation={0} className={classes.resetContainer}>
-            <Typography>All steps completed - you&apos;re ready submit</Typography>
+            <Typography>
+              All steps completed - you&apos;re ready submit
+            </Typography>
             <Button
               onClick={onRegister}
               className={classes.button}

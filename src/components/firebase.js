@@ -1,64 +1,72 @@
-import app from 'firebase/app'
-import 'firebase/auth'
-import 'firebase/firebase-firestore'
+import app from "firebase/app";
+import "firebase/auth";
+import "firebase/firebase-firestore";
 
 const config = {
-	apiKey: "AIzaSyD2s3LaOFh4_5QcwJCrVx0sgYV3KUS67ow",
-	authDomain: "jobbit-15765.firebaseapp.com",
-	databaseURL: "https://jobbit-15765.firebaseio.com",
-	projectId: "jobbit-15765",
-	storageBucket: "jobbit-15765.appspot.com",
-	messagingSenderId: "178724327877",
-	appId: "1:178724327877:web:a4a311f0d54ec62460fbac",
-	measurementId: "G-3M4X3W5J2G"
-}
+  apiKey: "AIzaSyD2s3LaOFh4_5QcwJCrVx0sgYV3KUS67ow",
+  authDomain: "jobbit-15765.firebaseapp.com",
+  databaseURL: "https://jobbit-15765.firebaseio.com",
+  projectId: "jobbit-15765",
+  storageBucket: "jobbit-15765.appspot.com",
+  messagingSenderId: "178724327877",
+  appId: "1:178724327877:web:a4a311f0d54ec62460fbac",
+  measurementId: "G-3M4X3W5J2G"
+};
 
 class Firebase {
-	constructor() {
-		app.initializeApp(config)
-		this.auth = app.auth()
-		this.db = app.firestore()
-	}
+  constructor() {
+    app.initializeApp(config);
+    this.auth = app.auth();
+    this.db = app.firestore();
+  }
 
-	login(email, password) {
-		return this.auth.signInWithEmailAndPassword(email, password)
-	}
+  login(email, password) {
+    return this.auth.signInWithEmailAndPassword(email, password);
+  }
 
-	logout() {
-		return this.auth.signOut()
-	}
+  logout() {
+    return this.auth.signOut();
+  }
 
-	async register(name, email, password) {
-		await this.auth.createUserWithEmailAndPassword(email, password)
-		return this.auth.currentUser.updateProfile({
-			displayName: name
-		})
-	}
+  async register(name, email, password) {
+    await this.auth.createUserWithEmailAndPassword(email, password);
+    return this.auth.currentUser.updateProfile({
+      displayName: name
+    });
+  }
 
-	addUserType(userType) {
-		if(!this.auth.currentUser) {
-			return alert('Not authorized')
-		}
+  addUserData(userType, skills) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
 
-		return this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).set({
-			userType
-		})
-	}
+    return this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).set({
+      userType,
+      skills
+    });
+  }
 
-	isInitialized() {
-		return new Promise(resolve => {
-			this.auth.onAuthStateChanged(resolve)
-		})
-	}
+  isInitialized() {
+    return new Promise(resolve => {
+      this.auth.onAuthStateChanged(resolve);
+    });
+  }
 
-	getCurrentUsername() {
-		return this.auth.currentUser && this.auth.currentUser.displayName
-	}
+  getCurrentUsername() {
+    return this.auth.currentUser && this.auth.currentUser.displayName;
+  }
 
-	async getCurrentUserType() {
-		const userType = await this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).get()
-		return userType.get('userType')
-	}
+  async getCurrentUserData() {
+    const userData = await this.db
+      .doc(`jobbit_users/${this.auth.currentUser.uid}`)
+      .get();
+
+    const userDetails = {
+      userType: userData.get("userType"),
+      skills: userData.get("skills")
+    };
+    return userDetails;
+  }
 }
 
-export default new Firebase()
+export default new Firebase();
