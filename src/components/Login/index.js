@@ -46,7 +46,6 @@ function SignIn(props) {
             id="email"
             name="email"
             autoComplete="off"
-            autoFocus
             value={email}
             onChange={e => setEmail(e.target.value)}
           />

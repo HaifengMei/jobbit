@@ -16,6 +16,8 @@ import AuthForm from "./AuthForm";
 import RoleForm from "./RoleForm";
 import CustomButton from "../Buttons/CustomButton";
 import CustomContainer from "../CustomContainer";
+import CustomSvgImage from "../../assets/svg/CustomSvgImage";
+import AccountIcon from "../../assets/svg/account_reg.svg";
 
 const styles = theme => ({
   form: {
@@ -31,8 +33,8 @@ const styles = theme => ({
   iconRoot: {
     textAlign: "center"
   },
-  stepperRoot:{
-    width:"100% !important"
+  stepperRoot: {
+    width: "100% !important"
   }
 });
 
@@ -76,7 +78,11 @@ function RegisterStepper(props) {
   }
 
   function getSteps() {
-    return ["Choose a Job Class", "Create Your Account", "Enter Your Job Skills"];
+    return [
+      "Choose a Job Class",
+      "Create Your Account",
+      "Enter Your Job Skills"
+    ];
   }
 
   const addSkill = () => {
@@ -127,12 +133,17 @@ function RegisterStepper(props) {
 
   return (
     <CustomContainer>
+      <CustomSvgImage src_url={AccountIcon} />
       <Typography variant="h5">Register Account</Typography>
-      <Stepper activeStep={activeStep} orientation="vertical" className={classes.stepperRoot}>
+      <Stepper
+        activeStep={activeStep}
+        orientation="vertical"
+        className={classes.stepperRoot}
+      >
         {steps.map((label, index) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
-            <StepContent >
+            <StepContent>
               <form onSubmit={e => e.preventDefault() && false}>
                 {getStepContent(index)}
                 <div className={classes.actionsContainer}>

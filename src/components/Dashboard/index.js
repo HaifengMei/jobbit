@@ -12,6 +12,9 @@ import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
 import { Link } from "react-router-dom";
 import SkillsList from "../Skills";
+import CustomContainer from "../CustomContainer";
+import CustomButton from "../Buttons/CustomButton";
+import BackButton from "../Buttons/BackButton";
 
 const styles = theme => ({
   main: {
@@ -53,51 +56,30 @@ function Dashboard(props) {
   }, [firebase.getCurrentUsername()]);
 
   if (!firebase.getCurrentUsername()) {
-    // not logged in
-    alert("Please login first");
     props.history.replace("/login");
     return null;
   }
 
   return (
-    <main className={classes.main}>
-      <Paper className={classes.paper}>
-        <Avatar className={classes.avatar}>
-          <VerifiedUserOutlined />
-        </Avatar>
-        <Typography variant="h5">{firebase.getCurrentUsername()}</Typography>
-        <Typography variant="h5">
-          {userDetails ? userDetails.role : <CircularProgress size={20} />}
-        </Typography>
-        {userDetails && userDetails.skills ? (
-          <SkillsList skills={userDetails.skills} />
-        ) : (
-          <CircularProgress size={20} />
-        )}
+    <CustomContainer>
+      <Typography variant="h5">{firebase.getCurrentUsername()}</Typography>
+      <Typography variant="h5">
+        {userDetails ? userDetails.role : <CircularProgress size={20} />}
+      </Typography>
+      {userDetails && userDetails.skills ? (
+        <SkillsList skills={userDetails.skills} />
+      ) : (
+        <CircularProgress size={20} />
+      )}
 
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="secondary"
-          onClick={logout}
-          className={classes.submit}
-        >
-          Logout
-        </Button>
-        <Button
-          type="submit"
-          fullWidth
-          variant="contained"
-          color="primary"
-          component={Link}
-          to="/"
-          className={classes.submit}
-        >
-          Back to Home
-        </Button>
-      </Paper>
-    </main>
+      <CustomButton
+        type="submit"
+        variant="outlined"
+        color="secondary"
+        callback={logout}
+        text="Logout"
+      />
+    </CustomContainer>
   );
 
   async function logout() {

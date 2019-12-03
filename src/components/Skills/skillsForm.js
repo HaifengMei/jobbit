@@ -12,7 +12,8 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import SkillsIcon from "../../assets/svg/SkillsIcon";
 import AddIcon from "@material-ui/icons/Add";
 import withStyles from "@material-ui/core/styles/withStyles";
-
+import CustomSvgImage from "../../assets/svg/CustomSvgImage";
+import SkillSvg from "../../assets/svg/skill.svg";
 const styles = theme => ({
   root: {
     marginLeft: "-20px"
@@ -36,7 +37,7 @@ function SkillsForm(props) {
     <List desnse="true" className={classes.root}>
       <ListItem>
         <ListItemIcon>
-          <SkillsIcon />
+          <CustomSvgImage src_url={SkillSvg} size={24} opacity="50%"/>
         </ListItemIcon>
         <ListItemText
           primary={
@@ -59,14 +60,14 @@ function SkillsForm(props) {
             disabled={newSkill == ""}
             color="primary"
           >
-            <AddIcon  />
+            <AddIcon />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
       {skills.map((skill, idx) => (
         <ListItem key={skill.id}>
           <ListItemIcon>
-            <SkillsIcon />
+            <CustomSvgImage src_url={SkillSvg} size={24} />
           </ListItemIcon>
           <ListItemText primary={skill.value} className={classes.text} />
           <ListItemSecondaryAction>

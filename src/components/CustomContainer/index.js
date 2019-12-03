@@ -2,6 +2,8 @@ import React from "react";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { Paper } from "@material-ui/core";
 import HeaderLogo from "../HeaderLogo";
+import BackButton from "../Buttons/BackButton";
+import CustomAppBar from "../AppBar";
 
 const styles = theme => ({
   main: {
@@ -22,7 +24,9 @@ const styles = theme => ({
     flexDirection: "column",
     alignItems: "center",
     padding: `${theme.spacing.unit * 2}px ${theme.spacing.unit * 3}px ${theme
-      .spacing.unit * 3}px`
+      .spacing.unit * 3}px`,
+    borderRadius: 10,
+    position: "relative"
   }
 });
 
@@ -31,6 +35,8 @@ function CustomContainer(props) {
   return (
     <main className={classes.main}>
       <Paper className={classes.paper}>
+        <CustomAppBar />
+        <BackButton />
         <HeaderLogo />
         {children}
       </Paper>

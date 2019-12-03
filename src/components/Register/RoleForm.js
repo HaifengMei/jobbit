@@ -5,8 +5,10 @@ import {
   RadioGroup,
   FormControlLabel
 } from "@material-ui/core";
-import RecruiterIcon from "../../assets/svg/RecruiterIcon";
-import JobHunterIcon from "../../assets/svg/JobHunterIcon";
+import RecruiterSvg from "../../assets/svg/recruiter.svg";
+import JobHunterSvg from "../../assets/svg/job_hunter.svg";
+
+import CustomSvgImage from "../../assets/svg/CustomSvgImage";
 
 export default function RoleForm(props) {
   const { role, setRole } = props;
@@ -23,8 +25,14 @@ export default function RoleForm(props) {
           value="Recruiter"
           control={
             <Radio
-              icon={<RecruiterIcon style={{opacity:"25%"}} fontSize="small"/>}
-              checkedIcon={<RecruiterIcon />}
+              icon={
+                <CustomSvgImage
+                  src_url={RecruiterSvg}
+                  size={24}
+                  opacity="25%"
+                />
+              }
+              checkedIcon={<CustomSvgImage src_url={RecruiterSvg} size={30} />}
             />
           }
           label="Recruiter"
@@ -33,8 +41,14 @@ export default function RoleForm(props) {
           value="Job Hunter"
           control={
             <Radio
-              icon={<JobHunterIcon style={{opacity:"25%"}} fontSize="small"/>}
-              checkedIcon={<JobHunterIcon />}
+              icon={
+                <CustomSvgImage
+                  src_url={JobHunterSvg}
+                  size={24}
+                  opacity="25%"
+                />
+              }
+              checkedIcon={<CustomSvgImage src_url={JobHunterSvg} size={30} />}
             />
           }
           label="Job Hunter"
