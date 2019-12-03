@@ -1,55 +1,46 @@
-import React, { useState } from "react";
-import { FormControl, Input, InputLabel, withStyles } from "@material-ui/core";
+import React from "react";
+import {
+  FormControl,
+  Input,
+  InputLabel
+} from "@material-ui/core";
 
-const styles = theme => ({
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
-  }
-});
 
-function AuthForm(props) {
-  const { classes, user, setUser } = props;
-  const { email, name, password } = user;
-
-  const updateField = e => {
-    setUser({
-      ...user,
-      [e.target.name]: e.target.value
-    });
-  };
+export default function AuthForm(props) {
+  const { name, setName, email, setEmail, password, setPassword} = props;
   return (
-    <form className={classes.form} onSubmit={e => e.preventDefault() && false}>
-      <FormControl margin="normal" required fullWidth>
+    <FormControl fullWidth>
+      <FormControl required>
         <InputLabel htmlFor="name">Name</InputLabel>
         <Input
           id="name"
           name="name"
+          autoComplete="off"
           value={name}
-          onChange={updateField}
+          onChange={e => setName(e.target.value)}
         />
       </FormControl>
-      <FormControl margin="normal" required fullWidth>
+      <FormControl required>
         <InputLabel htmlFor="email">Email Address</InputLabel>
         <Input
           id="email"
           name="email"
+          autoComplete="off"
           value={email}
-          onChange={updateField}
+          onChange={e => setEmail(e.target.value)}
         />
       </FormControl>
-      <FormControl margin="normal" required fullWidth>
+      <FormControl required>
         <InputLabel htmlFor="password">Password</InputLabel>
         <Input
           name="password"
           type="password"
           id="password"
+          autoComplete="off"
           value={password}
-          onChange={updateField}
+          onChange={e => setPassword(e.target.value)}
         />
       </FormControl>
-    </form>
+    </FormControl>
   );
 }
-
-export default withStyles(styles)(AuthForm);

@@ -35,13 +35,13 @@ class Firebase {
     });
   }
 
-  addUserData(userType, skills) {
+  addUserData(role, skills) {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
 
     return this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).set({
-      userType,
+      role,
       skills
     });
   }
@@ -62,7 +62,7 @@ class Firebase {
       .get();
 
     const userDetails = {
-      userType: userData.get("userType"),
+      role: userData.get("role"),
       skills: userData.get("skills")
     };
     return userDetails;

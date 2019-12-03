@@ -67,7 +67,7 @@ function Dashboard(props) {
         </Avatar>
         <Typography variant="h5">{firebase.getCurrentUsername()}</Typography>
         <Typography variant="h5">
-          {userDetails ? userDetails.userType : <CircularProgress size={20} />}
+          {userDetails ? userDetails.role : <CircularProgress size={20} />}
         </Typography>
         {userDetails && userDetails.skills ? (
           <SkillsList skills={userDetails.skills} />
