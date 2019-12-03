@@ -1,6 +1,5 @@
 import React from "react";
 import { List, ListItem, ListItemText, ListItemIcon } from "@material-ui/core";
-import SkillsIcon from "../../assets/svg/SkillsIcon";
 import CustomSvgImage from "../../assets/svg/CustomSvgImage";
 import SkillSvg from "../../assets/svg/skill.svg";
 

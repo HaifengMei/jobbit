@@ -9,7 +9,6 @@ import {
   Input
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
-import SkillsIcon from "../../assets/svg/SkillsIcon";
 import AddIcon from "@material-ui/icons/Add";
 import withStyles from "@material-ui/core/styles/withStyles";
 import CustomSvgImage from "../../assets/svg/CustomSvgImage";
