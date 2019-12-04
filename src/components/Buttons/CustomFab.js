@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing.unit * 1,
+    margin: theme.spacing(1),
     width: "50% !important"
   }
 });
@@ -16,7 +16,8 @@ function CustomFab(props) {
     color = "default",
     variant = "extended",
     size = "medium",
-    classes
+    classes,
+    icon = null
   } = props;
   if (url) {
     return (
@@ -28,6 +29,7 @@ function CustomFab(props) {
         component={Link}
         to={url}
       >
+        {icon}
         {text}
       </Fab>
     );
@@ -35,6 +37,7 @@ function CustomFab(props) {
 
   return (
     <Fab variant={variant} size={size} color={color} className={classes.button}>
+      {icon}
       {text}
     </Fab>
   );

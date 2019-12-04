@@ -5,7 +5,7 @@ function CustomSvgImage(props) {
   return (
     <img
       src={src_url}
-      style={{ height: size, margin: margin, opacity: opacity }}
+      style={{ height: size, margin: margin, opacity: opacity, zIndex:2 }}
     />
   );
 }

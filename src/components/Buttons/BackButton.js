@@ -7,24 +7,19 @@ import withStyles from "@material-ui/core/styles/withStyles";
 const styles = theme => ({
   button: {
     position: "absolute",
-    top: theme.spacing.unit * 1,
-    left: theme.spacing.unit * 1
+    top: theme.spacing(1),
+    left: theme.spacing(1)
   }
 });
 
 function BackButton(props) {
-  const { classes, history, location } = props;
-  const { pathname } = location;
+  const { classes, history } = props;
 
-  if (pathname !== "/") {
-    return (
-      <IconButton className={classes.button} onClick={() => history.goBack()}>
-        <BackIcon />
-      </IconButton>
-    );
-  }
-
-  return null;
+  return (
+    <IconButton className={classes.button} onClick={() => history.goBack()}>
+      <BackIcon />
+    </IconButton>
+  );
 }
 
 export default withRouter(withStyles(styles)(BackButton));

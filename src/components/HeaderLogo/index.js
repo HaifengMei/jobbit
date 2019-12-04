@@ -10,7 +10,7 @@ const styles = theme => ({
   media: {
     height: 110,
     width: 200,
-    marginBottom: theme.spacing.unit * 3
+    marginBottom: theme.spacing(3)
   }
 });
 

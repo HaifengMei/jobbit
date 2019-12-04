@@ -15,7 +15,8 @@ import CustomSvgImage from "../../assets/svg/CustomSvgImage";
 import SkillSvg from "../../assets/svg/skill.svg";
 const styles = theme => ({
   root: {
-    marginLeft: "-20px"
+    marginLeft: "-20px",
+    borderRadius:"10px !important"
   },
   text: {
     wordWrap: "break-word"

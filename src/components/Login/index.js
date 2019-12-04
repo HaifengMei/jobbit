@@ -1,26 +1,17 @@
 import React, { useState } from "react";
-import {
-  Typography,
-  Avatar,
-  FormControl,
-  Input,
-  InputLabel
-} from "@material-ui/core";
-import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
+import { Typography, FormControl, Input, InputLabel } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import { withRouter } from "react-router-dom";
 import firebase from "../firebase";
 import CustomButton from "../Buttons/CustomButton";
 import CustomContainer from "../CustomContainer";
+import CustomSvgImage from "../../assets/svg/CustomSvgImage";
+import LoginSvg from "../../assets/svg/login.svg";
 
 const styles = theme => ({
-  avatar: {
-    margin: theme.spacing.unit,
-    backgroundColor: theme.palette.secondary.main
-  },
   form: {
     width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing.unit
+    marginTop: theme.spacing(1)
   }
 });
 
@@ -32,9 +23,7 @@ function SignIn(props) {
 
   return (
     <CustomContainer>
-      <Avatar className={classes.avatar}>
-        <LockOutlinedIcon />
-      </Avatar>
+      <CustomSvgImage src_url={LoginSvg} margin={10} />
       <Typography variant="h5">Sign in</Typography>
       <form
         className={classes.form}

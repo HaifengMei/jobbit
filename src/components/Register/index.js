@@ -17,15 +17,15 @@ import RoleForm from "./RoleForm";
 import CustomButton from "../Buttons/CustomButton";
 import CustomContainer from "../CustomContainer";
 import CustomSvgImage from "../../assets/svg/CustomSvgImage";
-import AccountIcon from "../../assets/svg/account_reg.svg";
+import RegisterSvg from "../../assets/svg/register.svg";
 
 const styles = theme => ({
   form: {
     width: "100%" // Fix IE 11 issue.
   },
   actionsContainer: {
-    marginTop: theme.spacing.unit * 1,
-    marginBottom: theme.spacing.unit * 1
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1)
   },
   imageIcon: {
     height: "100%"
@@ -133,7 +133,7 @@ function RegisterStepper(props) {
 
   return (
     <CustomContainer>
-      <CustomSvgImage src_url={AccountIcon} />
+      <CustomSvgImage src_url={RegisterSvg} margin={10} />
       <Typography variant="h5">Register Account</Typography>
       <Stepper
         activeStep={activeStep}

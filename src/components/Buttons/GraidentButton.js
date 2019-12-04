@@ -5,11 +5,16 @@ import { Link } from "react-router-dom";
 const styles = theme => ({
   button: {
     margin: theme.spacing(1),
-    borderRadius: 20
+    borderRadius: 20,
+    background: 'linear-gradient(45deg, #FE6B8B 30%, #FF8E53 90%)',
+    padding: "0 30px",
+    color: "white",
+    height: 36,
+    boxShadow: `0 3px 5px 2px rgba(255, 105, 135, .3)`
   }
 });
 
-function CustomButton(props) {
+function GradientButton(props) {
   const {
     type = null,
     text = "",
@@ -19,7 +24,7 @@ function CustomButton(props) {
     variant = "contained",
     size = "medium",
     classes,
-    startIcon =null,
+    startIcon = null,
     endIcon = null,
     fullWidth = true
   } = props;
@@ -68,4 +73,4 @@ function CustomButton(props) {
   );
 }
 
-export default withStyles(styles)(CustomButton);
+export default withStyles(styles)(GradientButton);
