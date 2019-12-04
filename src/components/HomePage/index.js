@@ -10,6 +10,7 @@ import JobHunterSvg from "../../assets/svg/job_hunter.svg";
 import PaymentSvg from "../../assets/svg/payment.svg";
 
 import GraidentButton from "../Buttons/GraidentButton";
+import "./index.css";
 
 const styles = theme => ({
   bg: {
@@ -24,10 +25,10 @@ const styles = theme => ({
   },
   heading: {
     // paddingBottom: 195,
-    color: "white",
-    textAlign: "center",
-    fontSize:16,
-    fontStyle:"italic",
+    // color: "white",
+    // textAlign: "center",
+    // fontSize: 16,
+    // fontStyle: "italic"
   },
   button: {
     margin: theme.spacing(1),
@@ -43,7 +44,7 @@ const styles = theme => ({
   },
   grid: {
     marginTop: "5vh",
-    marginBottom: "9vh"
+    marginBottom: "3vh"
   }
 });
 
@@ -52,9 +53,12 @@ function HomePage(props) {
   return (
     <CustomContainer backButton={false}>
       <img src={bgUrl} className={classes.bg} />
-      <Typography variant="overline" gutterBottom className={classes.heading}>
-        The hub where you get work done
-      </Typography>
+      <div class="blockquote-wrapper">
+        <div class="blockquote">
+          <h1>Jobbit, the hub where you get work done</h1>
+          <h4>&mdash;Feng</h4>
+        </div>
+      </div>
       <Grid container spacing={2} className={classes.grid}>
         <Grid item xs={4}>
           <div className={classes.icon}>
