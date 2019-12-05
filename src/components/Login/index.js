@@ -35,7 +35,6 @@ function SignIn(props) {
           <Input
             id="email"
             name="email"
-            autoComplete="off"
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
@@ -46,7 +45,6 @@ function SignIn(props) {
             name="password"
             type="password"
             id="password"
-            autoComplete="off"
             value={password}
             onChange={e => setPassword(e.target.value)}
           />
@@ -69,6 +67,7 @@ function SignIn(props) {
       await firebase.login(email, password);
       props.history.replace("/dashboard");
     } catch (error) {
+      setLoading(false);
       alert(error.message);
     }
   }

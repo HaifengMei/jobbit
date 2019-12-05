@@ -1,15 +1,25 @@
 import React, { useEffect, useState } from "react";
-import { Typography, CircularProgress } from "@material-ui/core";
+import {
+  Typography,
+  Paper,
+  Avatar,
+  CircularProgress,
+  Button
+} from "@material-ui/core";
+import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
 import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
+import { Link } from "react-router-dom";
+import SkillsList from "../Skills";
 import CustomContainer from "../CustomContainer";
-
+import CustomButton from "../Buttons/CustomButton";
+import BackButton from "../Buttons/BackButton";
 import BottomNav from "../BottomNav";
 
 const styles = theme => ({});
 
-function Dashboard(props) {
+function Profile(props) {
   const { classes } = props;
 
   const [userDetails, setUserDetails] = useState(null);
@@ -27,9 +37,27 @@ function Dashboard(props) {
       <Typography variant="h5">
         {userDetails ? userDetails.role : <CircularProgress size={20} />}
       </Typography>
-      <BottomNav />
+      {userDetails && userDetails.skills ? (
+        <SkillsList skills={userDetails.skills} />
+      ) : (
+        <CircularProgress size={20} />
+      )}
+
+      <CustomButton
+        type="submit"
+        variant="outlined"
+        color="secondary"
+        callback={logout}
+        text="Logout"
+      />
+      <BottomNav active={2} />
     </CustomContainer>
   );
+
+  async function logout() {
+    await firebase.logout();
+    props.history.push("/");
+  }
 }
 
-export default withRouter(withStyles(styles)(Dashboard));
+export default withRouter(withStyles(styles)(Profile));

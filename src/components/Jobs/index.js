@@ -9,7 +9,7 @@ import BottomNav from "../BottomNav";
 
 const styles = theme => ({});
 
-function Dashboard(props) {
+function Jobs(props) {
   const { classes } = props;
 
   const [userDetails, setUserDetails] = useState(null);
@@ -23,13 +23,10 @@ function Dashboard(props) {
 
   return (
     <CustomContainer>
-      <Typography variant="h5">{firebase.getCurrentUsername()}</Typography>
-      <Typography variant="h5">
-        {userDetails ? userDetails.role : <CircularProgress size={20} />}
-      </Typography>
-      <BottomNav />
+      <Typography variant="h5">Jobs</Typography>
+      <BottomNav active={1} />
     </CustomContainer>
   );
 }
 
-export default withRouter(withStyles(styles)(Dashboard));
+export default withRouter(withStyles(styles)(Jobs));

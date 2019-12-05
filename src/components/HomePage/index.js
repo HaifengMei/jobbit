@@ -1,7 +1,7 @@
-import React from "react";
-import { Typography, Icon, Grid, Paper } from "@material-ui/core";
+import React, { useEffect } from "react";
+import { Grid } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
-import CustomButton from "../Buttons/CustomButton";
+import firebase from "../firebase";
 import CustomContainer from "../CustomContainer";
 import bgUrl from "../../assets/images/background.jpg";
 import CustomSvgImage from "../../assets/svg/CustomSvgImage";
@@ -37,13 +37,16 @@ const styles = theme => ({
   },
   grid: {
     marginTop: "3vh"
-    // position: "absolute",
-    // bottom: 0
   },
   nav: { width: "80%", marginTop: "10vh" }
 });
 
 function HomePage(props) {
+  useEffect(() => {
+    if (firebase.getCurrentUsername()) {
+      props.history.replace("/dashboard");
+    }
+  });
   const { classes } = props;
   return (
     <CustomContainer backButton={false}>
