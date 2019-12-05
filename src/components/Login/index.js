@@ -20,6 +20,7 @@ function SignIn(props) {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
 
   return (
     <CustomContainer>
@@ -55,6 +56,7 @@ function SignIn(props) {
           callback={login}
           type={"submit"}
           text="Sign In"
+          loading={loading}
         />
         <CustomButton url="/register" text="Register" variant="outlined" />
       </form>
@@ -63,6 +65,7 @@ function SignIn(props) {
 
   async function login() {
     try {
+      setLoading(true);
       await firebase.login(email, password);
       props.history.replace("/dashboard");
     } catch (error) {

@@ -18,12 +18,11 @@ const styles = theme => ({
     left: 0,
     top: 0,
     width: "100%",
-    height: "83vh",
+    height: "100%",
     borderRadius: 10,
     zIndex: -1
   },
-  heading: {
-  },
+  heading: {},
   button: {
     margin: theme.spacing(1),
     borderRadius: 20,
@@ -37,9 +36,11 @@ const styles = theme => ({
     textAlign: "center"
   },
   grid: {
-    marginTop: "5vh",
-    marginBottom: "6vh"
-  }
+    marginTop: "3vh"
+    // position: "absolute",
+    // bottom: 0
+  },
+  nav: { width: "80%", marginTop: "10vh" }
 });
 
 function HomePage(props) {
@@ -50,7 +51,7 @@ function HomePage(props) {
       <div className="blockquote-wrapper">
         <div className="blockquote">
           <h1>Jobbit, the hub where you get work done</h1>
-          <h4>&mdash;Feng</h4>
+          <h4>&mdash; Feng</h4>
         </div>
       </div>
       <Grid container spacing={2} className={classes.grid}>
@@ -70,20 +71,10 @@ function HomePage(props) {
           </div>
         </Grid>
       </Grid>
-
-      <GraidentButton
-        // variant="outlined"
-        color="primary"
-        url="/register"
-        text="Register"
-      />
-
-      <GraidentButton
-        // variant="outlined"
-        color="primary"
-        url="/login"
-        text="Login"
-      />
+      <div className={classes.nav}>
+        <GraidentButton color="primary" url="/register" text="Register" />
+        <GraidentButton color="primary" url="/login" text="Login" />
+      </div>
 
       {/* <CustomButton
         // variant="outlined"

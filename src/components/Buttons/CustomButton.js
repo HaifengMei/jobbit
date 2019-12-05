@@ -1,11 +1,18 @@
 import React from "react";
 import { Button, withStyles } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import LinearProgress from "@material-ui/core/LinearProgress";
 
 const styles = theme => ({
   button: {
-    margin: theme.spacing(1),
-    borderRadius: 20
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    borderRadius: 20,
+    position: "relative"
+  },
+  loader: {
+    position: "absolute"
   }
 });
 
@@ -17,11 +24,13 @@ function CustomButton(props) {
     callback = null,
     color = "default",
     variant = "contained",
-    size = "medium",
+    size = "small",
     classes,
-    startIcon =null,
+    startIcon = null,
     endIcon = null,
-    fullWidth = true
+    fullWidth = true,
+    disabled = false,
+    loading = false
   } = props;
   if (url) {
     return (
@@ -49,8 +58,16 @@ function CustomButton(props) {
         className={classes.button}
         type={type}
         onClick={callback}
+        disabled={disabled || loading}
       >
-        {text}
+        {loading ? (
+          <div>
+            <CircularProgress size={26} className={classes.loader} />
+            {text}
+          </div>
+        ) : (
+          text
+        )}
       </Button>
     );
   }
@@ -62,6 +79,7 @@ function CustomButton(props) {
       color={color}
       size={size}
       className={classes.button}
+      disabled
     >
       {text}
     </Button>

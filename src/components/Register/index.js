@@ -52,6 +52,7 @@ function RegisterStepper(props) {
   const [bio, setBio] = useState("");
   const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const steps = getSteps();
 
@@ -69,6 +70,7 @@ function RegisterStepper(props) {
 
   async function onRegister() {
     try {
+      setLoading(true);
       await firebase.register(name, email, password);
       await firebase.addUserData(role, skills, phone, addresses, bio);
       props.history.replace("/dashboard");
@@ -188,11 +190,16 @@ function RegisterStepper(props) {
         ))}
       </Stepper>
       {activeStep === steps.length && (
-        <Paper square elevation={0} className={classes.resetContainer}>
+        <Paper elevation={0}>
           <Typography>
-            All steps completed - you&apos;re ready submit
+            All steps completed - you&apos;re ready to set sail
           </Typography>
-          <CustomButton color="primary" callback={onRegister} text="Submit" />
+          <CustomButton
+            color="primary"
+            callback={onRegister}
+            text="Submit"
+            loading={loading}
+          />
           <CustomButton
             variant="outlined"
             color="secondary"
