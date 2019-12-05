@@ -41,7 +41,7 @@ const styles = theme => ({
 
 function RegisterStepper(props) {
   const { classes } = props;
-  const [activeStep, setActiveStep] = useState(2);
+  const [activeStep, setActiveStep] = useState(0);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -72,7 +72,7 @@ function RegisterStepper(props) {
     try {
       setLoading(true);
       await firebase.register(name, email, password);
-      await firebase.addUserData(role, skills, phone, addresses, bio);
+      await firebase.addUserProfile(role, skills, phone, addresses, bio);
       props.history.replace("/dashboard");
     } catch (error) {
       alert(error.message);

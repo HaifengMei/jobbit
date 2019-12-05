@@ -46,7 +46,7 @@ function HomePage(props) {
     if (firebase.getCurrentUsername()) {
       props.history.replace("/dashboard");
     }
-  });
+  }, [firebase.getCurrentUsername()]);
   const { classes } = props;
   return (
     <CustomContainer backButton={false}>

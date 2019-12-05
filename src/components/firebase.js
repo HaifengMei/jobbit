@@ -1,6 +1,7 @@
 import app from "firebase/app";
 import "firebase/auth";
 import "firebase/firebase-firestore";
+import moment from "moment";
 
 const config = {
   apiKey: "AIzaSyD2s3LaOFh4_5QcwJCrVx0sgYV3KUS67ow",
@@ -35,20 +36,6 @@ class Firebase {
     });
   }
 
-  addUserData(role, skills, phone, adddresses, bio) {
-    if (!this.auth.currentUser) {
-      return alert("Not authorized");
-    }
-
-    return this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).set({
-      role,
-      skills,
-      phone,
-      adddresses,
-      bio
-    });
-  }
-
   isInitialized() {
     return new Promise(resolve => {
       this.auth.onAuthStateChanged(resolve);
@@ -59,16 +46,136 @@ class Firebase {
     return this.auth.currentUser && this.auth.currentUser.displayName;
   }
 
-  async getCurrentUserData() {
-    const userData = await this.db
-      .doc(`jobbit_users/${this.auth.currentUser.uid}`)
-      .get();
+  addUserProfile(role, skills, phone, adddresses, bio) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
 
-    const userDetails = {
-      role: userData.get("role"),
-      skills: userData.get("skills")
-    };
-    return userDetails;
+    return this.db
+      .doc(`users/${this.auth.currentUser.uid}/profile/data`)
+      .set({
+        role,
+        skills,
+        phone,
+        adddresses,
+        bio
+      })
+      .then(function() {
+        console.log("Document successfully written!");
+      })
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
+      });
+  }
+
+  async getCurrentUserProfile() {
+    const profile = await this.db
+      .doc(`users/${this.auth.currentUser.uid}/profile/data`)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          return doc.data();
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+
+    return profile;
+  }
+
+  addUserJobs(job) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+
+    return this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .collection("jobs")
+      .add({
+        ...job,
+        timestamp: app.firestore.Timestamp.now()
+      })
+      .then(function(docRef) {
+        // return {
+        //   id: docRef.id,
+        //   timestamp: moment(app.firestore.Timestamp.now()._seconds).format(
+        //     "lll"
+        //   ),
+        //   ...job
+        // };
+        console.log(`Document added successfully ${docRef.id}`);
+      })
+      .catch(function(error) {
+        console.error("Error writing document: ", error);
+      });
+  }
+
+  deleteUserJob(id) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+
+    return this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .collection("jobs")
+      .doc(id)
+      .delete()
+      .then(function() {
+        console.log(`Document deleted successfully`);
+      })
+      .catch(function(error) {
+        console.error("Error removing document: ", error);
+      });
+  }
+
+  updateJob(id, update) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+
+    return this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .collection("jobs")
+      .doc(id)
+      .update(update)
+      .then(function() {
+        console.log(`Document updated successfully`);
+      })
+      .catch(function(error) {
+        console.error("Error updating document: ", error);
+      });
+  }
+
+  async getCurrentUserJobs() {
+    const jobs = await this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .collection("jobs")
+      .orderBy("timestamp", "desc")
+      .get()
+      .then(function(snpashot) {
+        if (snpashot) {
+          return snpashot.docs.map(doc => {
+            const data = doc.data();
+            const id = doc.id;
+            return { id, ...data };
+          });
+        } else {
+          console.log("No such collection!");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting collection:", error);
+      });
+
+    return jobs;
   }
 }
 

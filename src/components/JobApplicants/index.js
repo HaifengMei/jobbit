@@ -15,7 +15,7 @@ function JobApplicants(props) {
   const [userDetails, setUserDetails] = useState(null);
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
-      firebase.getCurrentUserData().then(setUserDetails);
+      firebase.getCurrentUserProfile().then(setUserDetails);
     } else {
       props.history.replace("/login");
     }

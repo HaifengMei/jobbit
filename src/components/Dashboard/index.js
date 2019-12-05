@@ -10,12 +10,12 @@ import BottomNav from "../BottomNav";
 const styles = theme => ({});
 
 function Dashboard(props) {
-  const { classes } = props;
+  // const { classes } = props;
 
   const [userDetails, setUserDetails] = useState(null);
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
-      firebase.getCurrentUserData().then(setUserDetails);
+      firebase.getCurrentUserProfile().then(setUserDetails);
     } else {
       props.history.replace("/login");
     }

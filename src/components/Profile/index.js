@@ -1,31 +1,22 @@
 import React, { useEffect, useState } from "react";
-import {
-  Typography,
-  Paper,
-  Avatar,
-  CircularProgress,
-  Button
-} from "@material-ui/core";
-import VerifiedUserOutlined from "@material-ui/icons/VerifiedUserOutlined";
+import { Typography, CircularProgress } from "@material-ui/core";
 import withStyles from "@material-ui/core/styles/withStyles";
 import firebase from "../firebase";
 import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
 import SkillsList from "../Skills";
 import CustomContainer from "../CustomContainer";
 import CustomButton from "../Buttons/CustomButton";
-import BackButton from "../Buttons/BackButton";
 import BottomNav from "../BottomNav";
 
 const styles = theme => ({});
 
 function Profile(props) {
-  const { classes } = props;
+  // const { classes } = props;
 
-  const [userDetails, setUserDetails] = useState(null);
+  const [userProfile, setUserProfile] = useState(null);
   useEffect(() => {
     if (firebase.getCurrentUsername()) {
-      firebase.getCurrentUserData().then(setUserDetails);
+      firebase.getCurrentUserProfile().then(setUserProfile);
     } else {
       props.history.replace("/login");
     }
@@ -35,10 +26,10 @@ function Profile(props) {
     <CustomContainer>
       <Typography variant="h5">{firebase.getCurrentUsername()}</Typography>
       <Typography variant="h5">
-        {userDetails ? userDetails.role : <CircularProgress size={20} />}
+        {userProfile ? userProfile.role : <CircularProgress size={20} />}
       </Typography>
-      {userDetails && userDetails.skills ? (
-        <SkillsList skills={userDetails.skills} />
+      {userProfile && userProfile.skills ? (
+        <SkillsList skills={userProfile.skills} />
       ) : (
         <CircularProgress size={20} />
       )}
