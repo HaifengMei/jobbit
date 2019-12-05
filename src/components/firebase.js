@@ -101,17 +101,10 @@ class Firebase {
         timestamp: app.firestore.Timestamp.now()
       })
       .then(function(docRef) {
-        // return {
-        //   id: docRef.id,
-        //   timestamp: moment(app.firestore.Timestamp.now()._seconds).format(
-        //     "lll"
-        //   ),
-        //   ...job
-        // };
-        console.log(`Document added successfully ${docRef.id}`);
+        console.log(`Job added successfully ${docRef.id}`);
       })
       .catch(function(error) {
-        console.error("Error writing document: ", error);
+        console.error("Error writing job: ", error);
       });
   }
 
@@ -127,14 +120,14 @@ class Firebase {
       .doc(id)
       .delete()
       .then(function() {
-        console.log(`Document deleted successfully`);
+        console.log(`Job deleted successfully`);
       })
       .catch(function(error) {
-        console.error("Error removing document: ", error);
+        console.error("Error removing job: ", error);
       });
   }
 
-  updateJob(id, update) {
+  updateUserJob(id, update) {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
@@ -146,10 +139,48 @@ class Firebase {
       .doc(id)
       .update(update)
       .then(function() {
-        console.log(`Document updated successfully`);
+        console.log(`Job updated successfully`);
       })
       .catch(function(error) {
-        console.error("Error updating document: ", error);
+        console.error("Error updating job: ", error);
+      });
+  }
+
+  addListedJobs(jobId) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+
+    return this.db
+      .collection("listed_jobs")
+      .doc(jobId)
+      .set({
+        listerId: this.auth.currentUser.uid,
+        jobId,
+        timestamp: app.firestore.Timestamp.now()
+      })
+      .then(function() {
+        console.log(`Job listed successfully`);
+      })
+      .catch(function(error) {
+        console.error("Error writing listed job: ", error);
+      });
+  }
+
+  removeListedJobs(jobId) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+
+    return this.db
+      .collection("listed_jobs")
+      .doc(jobId)
+      .delete()
+      .then(function() {
+        console.log(`Job unlisted successfully`);
+      })
+      .catch(function(error) {
+        console.error("Error removing listed job: ", error);
       });
   }
 
@@ -172,7 +203,7 @@ class Firebase {
         }
       })
       .catch(function(error) {
-        console.log("Error getting collection:", error);
+        console.log("Error getting user jobs:", error);
       });
 
     return jobs;

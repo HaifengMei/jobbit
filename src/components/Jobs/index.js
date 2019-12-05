@@ -70,11 +70,17 @@ function Jobs(props) {
 
   async function deleteJob(id) {
     await firebase.deleteUserJob(id);
+    await firebase.removeListedJobs(id);
     firebase.getCurrentUserJobs().then(setUserJobs);
   }
 
   async function updateJob(id, update) {
-    await firebase.updateJob(id, update);
+    await firebase.updateUserJob(id, update);
+    if (update.status == "Listed") {
+      await firebase.addListedJobs(id);
+    } else if (update.status == "Unlisted") {
+      await firebase.removeListedJobs(id);
+    }
     firebase.getCurrentUserJobs().then(setUserJobs);
   }
 
