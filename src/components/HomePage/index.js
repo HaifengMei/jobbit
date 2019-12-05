@@ -18,17 +18,11 @@ const styles = theme => ({
     left: 0,
     top: 0,
     width: "100%",
-    height: "80vh",
-    // opacity: 0.5,
+    height: "83vh",
     borderRadius: 10,
     zIndex: -1
   },
   heading: {
-    // paddingBottom: 195,
-    // color: "white",
-    // textAlign: "center",
-    // fontSize: 16,
-    // fontStyle: "italic"
   },
   button: {
     margin: theme.spacing(1),
@@ -44,7 +38,7 @@ const styles = theme => ({
   },
   grid: {
     marginTop: "5vh",
-    marginBottom: "3vh"
+    marginBottom: "6vh"
   }
 });
 
@@ -53,8 +47,8 @@ function HomePage(props) {
   return (
     <CustomContainer backButton={false}>
       <img src={bgUrl} className={classes.bg} />
-      <div class="blockquote-wrapper">
-        <div class="blockquote">
+      <div className="blockquote-wrapper">
+        <div className="blockquote">
           <h1>Jobbit, the hub where you get work done</h1>
           <h4>&mdash;Feng</h4>
         </div>

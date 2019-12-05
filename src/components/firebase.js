@@ -35,14 +35,17 @@ class Firebase {
     });
   }
 
-  addUserData(role, skills) {
+  addUserData(role, skills, phone, adddresses, bio) {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
 
     return this.db.doc(`jobbit_users/${this.auth.currentUser.uid}`).set({
       role,
-      skills
+      skills,
+      phone,
+      adddresses,
+      bio
     });
   }
 

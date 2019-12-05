@@ -18,6 +18,7 @@ import CustomButton from "../Buttons/CustomButton";
 import CustomContainer from "../CustomContainer";
 import CustomSvgImage from "../../assets/svg/CustomSvgImage";
 import RegisterSvg from "../../assets/svg/register.svg";
+import DataForm from "./DataForm";
 
 const styles = theme => ({
   form: {
@@ -40,16 +41,16 @@ const styles = theme => ({
 
 function RegisterStepper(props) {
   const { classes } = props;
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(2);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("");
-  const [skills, setSkills] = useState([
-    { id: 0, value: "Power Washing" },
-    { id: 1, value: "Sky Scrapper Cleaning" },
-    { id: 2, value: "Lawn Mowing" }
-  ]);
+  const [phone, setPhone] = useState("");
+  const [address, setAddress] = useState("");
+  const [addresses, setAddresses] = useState([]);
+  const [bio, setBio] = useState("");
+  const [skills, setSkills] = useState([]);
   const [newSkill, setNewSkill] = useState("");
 
   const steps = getSteps();
@@ -69,7 +70,7 @@ function RegisterStepper(props) {
   async function onRegister() {
     try {
       await firebase.register(name, email, password);
-      await firebase.addUserData(role, skills);
+      await firebase.addUserData(role, skills, phone, addresses, bio);
       props.history.replace("/dashboard");
     } catch (error) {
       alert(error.message);
@@ -81,7 +82,7 @@ function RegisterStepper(props) {
     return [
       "Choose a Job Class",
       "Create Your Account",
-      "Enter Your Job Skills"
+      "Build Your Jobbit Profile"
     ];
   }
 
@@ -118,13 +119,27 @@ function RegisterStepper(props) {
         );
       case 2:
         return (
-          <SkillForm
-            newSkill={newSkill}
-            addSkill={addSkill}
-            setNewSkill={setNewSkill}
-            skills={skills}
-            removeSkill={removeSkill}
-          />
+          <div>
+            <DataForm
+              phone={phone}
+              setPhone={setPhone}
+              address={address}
+              setAddress={setAddress}
+              addresses={addresses}
+              setAddresses={setAddresses}
+              setBio={setBio}
+              bio={bio}
+            />
+            {role === "Job Hunter" && (
+              <SkillForm
+                newSkill={newSkill}
+                addSkill={addSkill}
+                setNewSkill={setNewSkill}
+                skills={skills}
+                removeSkill={removeSkill}
+              />
+            )}
+          </div>
         );
       default:
         return <Typography>Unknown step</Typography>;

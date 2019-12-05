@@ -6,7 +6,8 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   IconButton,
-  Input
+  Input,
+  InputLabel
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddIcon from "@material-ui/icons/Add";
@@ -16,7 +17,8 @@ import SkillSvg from "../../assets/svg/skill.svg";
 const styles = theme => ({
   root: {
     marginLeft: "-20px",
-    borderRadius:"10px !important"
+    marginRight: "-20px",
+    borderRadius: "10px !important"
   },
   text: {
     wordWrap: "break-word"
@@ -35,9 +37,10 @@ function SkillsForm(props) {
 
   return (
     <List desnse="true" className={classes.root}>
+      <InputLabel htmlFor="name">Your skills</InputLabel>
       <ListItem>
         <ListItemIcon>
-          <CustomSvgImage src_url={SkillSvg} size={24} opacity="50%"/>
+          <CustomSvgImage src_url={SkillSvg} size={24} opacity="50%" />
         </ListItemIcon>
         <ListItemText
           primary={
