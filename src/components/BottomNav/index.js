@@ -21,7 +21,7 @@ const styles = theme => ({
   }
 });
 function BottomNav(props) {
-  const { classes, active = 0 } = props;
+  const { classes, active = 2, disabled = false } = props;
   const [value, setValue] = React.useState(active);
 
   return (
@@ -38,13 +38,14 @@ function BottomNav(props) {
         <BottomNavigationAction
           component={Link}
           to={"/job_applicants"}
-          label="Recruits"
+          label="Applications"
           icon={<RecruitsSvgIcon />}
+          disabled={disabled}
         />
         <BottomNavigationAction
           component={Link}
           to={"/jobs"}
-          label="Quests"
+          label="Jobs"
           icon={<QuestSvgIcon />}
         />
         <BottomNavigationAction

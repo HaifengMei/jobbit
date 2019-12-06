@@ -12,6 +12,7 @@ import { CssBaseline, CircularProgress } from "@material-ui/core";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import firebase from "../firebase";
 import "typeface-roboto";
+import JobBoard from "../Jobs/JobBoard";
 
 const theme = createMuiTheme({
   palette: {
@@ -45,6 +46,7 @@ export default function App() {
           <Route exact path="/profile" component={Profile} />
           <Route exact path="/jobs" component={Jobs} />
           <Route exact path="/job_applicants" component={JobApplicants} />
+          <Route exact path="/job_board" component={JobBoard} />
         </Switch>
       </Router>
     </MuiThemeProvider>

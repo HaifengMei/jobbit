@@ -65,7 +65,7 @@ function SignIn(props) {
     try {
       setLoading(true);
       await firebase.login(email, password);
-      props.history.replace("/dashboard");
+      props.history.replace("/profile");
     } catch (error) {
       setLoading(false);
       alert(error.message);

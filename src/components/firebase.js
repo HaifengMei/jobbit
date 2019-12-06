@@ -46,7 +46,11 @@ class Firebase {
     return this.auth.currentUser && this.auth.currentUser.displayName;
   }
 
-  addUserProfile(role, skills, phone, adddresses, bio) {
+  getCurrentUid() {
+    return this.auth.currentUser && this.auth.currentUser.uid;
+  }
+
+  addUserProfile(role, skills, phone, adddresses, bio, name) {
     if (!this.auth.currentUser) {
       return alert("Not authorized");
     }
@@ -58,7 +62,8 @@ class Firebase {
         skills,
         phone,
         adddresses,
-        bio
+        bio,
+        name
       })
       .then(function() {
         console.log("Document successfully written!");
@@ -68,7 +73,7 @@ class Firebase {
       });
   }
 
-  async getCurrentUserProfile() {
+  async getCurrentUserProfile(id) {
     const profile = await this.db
       .doc(`users/${this.auth.currentUser.uid}/profile/data`)
       .get()
@@ -85,6 +90,50 @@ class Firebase {
       });
 
     return profile;
+  }
+
+  async getUserProfile(uid) {
+    const profile = await this.db
+      .doc(`users/${uid}/profile/data`)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          return doc.data();
+        } else {
+          // doc.data() will be undefined in this case
+          console.log("No such document!");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+
+    return profile;
+  }
+
+  async getCurrentUserJobs() {
+    const jobs = await this.db
+      .collection("users")
+      .doc(this.auth.currentUser.uid)
+      .collection("jobs")
+      .orderBy("timestamp", "desc")
+      .get()
+      .then(function(snpashot) {
+        if (snpashot) {
+          return snpashot.docs.map(doc => {
+            const data = doc.data();
+            const id = doc.id;
+            return { id, ...data };
+          });
+        } else {
+          console.log("No such collection!");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting user jobs:", error);
+      });
+
+    return jobs;
   }
 
   addUserJobs(job) {
@@ -157,7 +206,8 @@ class Firebase {
       .set({
         listerId: this.auth.currentUser.uid,
         jobId,
-        timestamp: app.firestore.Timestamp.now()
+        timestamp: app.firestore.Timestamp.now(),
+        applicants: []
       })
       .then(function() {
         console.log(`Job listed successfully`);
@@ -184,20 +234,23 @@ class Firebase {
       });
   }
 
-  async getCurrentUserJobs() {
+  async getListedJobs() {
     const jobs = await this.db
-      .collection("users")
-      .doc(this.auth.currentUser.uid)
-      .collection("jobs")
+      .collection("listed_jobs")
       .orderBy("timestamp", "desc")
       .get()
-      .then(function(snpashot) {
+      .then(async snpashot => {
         if (snpashot) {
-          return snpashot.docs.map(doc => {
-            const data = doc.data();
-            const id = doc.id;
-            return { id, ...data };
-          });
+          const jobRefs = snpashot.docs.map(doc => doc.data());
+          const jobs = [];
+          await Promise.all(
+            jobRefs.map(async jobRef => {
+              const listerDetails = await this.getUserProfile(jobRef.listerId);
+              const jobDetails = await this.getJobDetails(jobRef);
+              jobs.push({ ...listerDetails, ...jobDetails, ...jobRef });
+            })
+          );
+          return jobs;
         } else {
           console.log("No such collection!");
         }
@@ -207,6 +260,89 @@ class Firebase {
       });
 
     return jobs;
+  }
+
+  async getJobDetails(jobRef) {
+    const jobDetails = await this.db
+      .collection("users")
+      .doc(jobRef.listerId)
+      .collection("jobs")
+      .doc(jobRef.jobId)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          return doc.data();
+        } else {
+          console.log("No job details");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting user jobs:", error);
+      });
+
+    return jobDetails;
+  }
+
+  async updateListedJob(jobId, update) {
+    if (!this.auth.currentUser) {
+      return alert("Not authorized");
+    }
+
+    return this.db
+      .collection("listed_jobs")
+      .doc(jobId)
+      .update(update)
+      .then(function() {
+        console.log(`Listed Job updated successfully`);
+      })
+      .catch(function(error) {
+        console.error("Error updating listed job: ", error);
+      });
+  }
+
+  async getListedJob(jobId) {
+    const jobs = await this.db
+      .collection("listed_jobs")
+      .doc(jobId)
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          return doc.data();
+        } else {
+          return false;
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting user jobs:", error);
+      });
+
+    return jobs;
+  }
+
+  async getApplicants() {
+    const userJobs = await this.getCurrentUserJobs();
+    const applicants = [];
+    await Promise.all(
+      userJobs.map(async job => {
+        const listedJob = await this.getListedJob(job.id);
+        if (listedJob) {
+          console.log(listedJob);
+          const applicantIds = listedJob.applicants;
+          await Promise.all(
+            applicantIds.map(async id => {
+              const userProfile = await this.getUserProfile(id);
+              applicants.push({
+                name: userProfile.name,
+                skills: userProfile.skills,
+                appliedJob: job.name
+              });
+            })
+          );
+        }
+      })
+    );
+    console.log(applicants);
+    return applicants;
   }
 }
 

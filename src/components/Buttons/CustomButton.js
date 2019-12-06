@@ -79,7 +79,7 @@ function CustomButton(props) {
       color={color}
       size={size}
       className={classes.button}
-      disabled
+      disabled={disabled}
     >
       {text}
     </Button>

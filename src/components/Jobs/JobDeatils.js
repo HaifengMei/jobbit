@@ -4,7 +4,6 @@ import {
   Card,
   CardActions,
   CardContent,
-  Button,
   Typography,
   Collapse,
   IconButton,
@@ -15,13 +14,9 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import clsx from "clsx";
 
 import moment from "moment";
-import QuestSvgIcon from "../BottomNav/QuestSvgIcon";
 import RewardsSvgIcon from "../../assets/svg/RewardsSvgIcon";
 import LocationSvgIcon from "../../assets/svg/LocationSvgIcon";
 
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import EditIcon from "@material-ui/icons/Edit";
-import PublishIcon from "@material-ui/icons/Public";
 const useStyles = makeStyles(theme => ({
   card: {
     minWidth: 275,
@@ -58,7 +53,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function JobDetails(props) {
   const classes = useStyles();
-  const { job, deleteJob, updateJob } = props;
+  const { job, children, status = true } = props;
   const bull = <span className={classes.bullet}>•</span>;
   const [expanded, setExpanded] = React.useState(false);
 
@@ -73,20 +68,22 @@ export default function JobDetails(props) {
   return (
     <Card className={classes.card}>
       <CardContent>
-        <Tooltip title="Status">
-          <Chip
-            label={job.status}
-            color={
-              job.status == "Listed"
-                ? "primary"
-                : job.status == "Unlisted"
-                ? "secondary"
-                : "default"
-            }
-            size="small"
-            className={classes.status}
-          />
-        </Tooltip>
+        {status && (
+          <Tooltip title="Status">
+            <Chip
+              label={job.status}
+              color={
+                job.status == "Listed"
+                  ? "primary"
+                  : job.status == "Unlisted"
+                  ? "secondary"
+                  : "default"
+              }
+              size="small"
+              className={classes.status}
+            />
+          </Tooltip>
+        )}
         <Typography
           className={classes.title}
           color="textSecondary"
@@ -110,33 +107,7 @@ export default function JobDetails(props) {
         </Typography>
       </CardContent>
       <CardActions disableSpacing>
-        <Tooltip title="Edit">
-          <IconButton>
-            <EditIcon />
-          </IconButton>
-        </Tooltip>
-        {job.status !== "Listed" ? (
-          <Tooltip title="List on Job Board">
-            <IconButton onClick={() => updateJob(job.id, { status: "Listed" })}>
-              <PublishIcon />
-            </IconButton>
-          </Tooltip>
-        ) : (
-          <Tooltip title="Unlist from Job Board">
-            <IconButton
-              color="primary"
-              onClick={() => updateJob(job.id, { status: "Unlisted" })}
-            >
-              <PublishIcon />
-            </IconButton>
-          </Tooltip>
-        )}
-
-        <Tooltip title="Delete">
-          <IconButton color="secondary" onClick={() => deleteJob(job.id)}>
-            <DeleteForeverIcon />
-          </IconButton>
-        </Tooltip>
+        {children}
         <IconButton
           className={clsx(classes.expand, {
             [classes.expandOpen]: expanded
