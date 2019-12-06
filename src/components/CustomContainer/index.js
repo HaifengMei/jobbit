@@ -28,10 +28,10 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    shadows: 0,
     padding: `${theme.spacing(2)}px ${theme.spacing(3)}px ${theme.spacing(
       3
     )}px`,
+
 
     position: "relative",
     zIndex: 2
