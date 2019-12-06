@@ -19,8 +19,11 @@ const styles = theme => ({
     top: 0,
     width: "100%",
     height: "100%",
-    borderRadius: 10,
-    zIndex: -1
+    zIndex: -1,
+    [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
+      borderRadius: 10,
+
+    },
   },
   heading: {},
   button: {
