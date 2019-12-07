@@ -73,7 +73,7 @@ function RegisterStepper(props) {
       setLoading(true);
       await firebase.register(name, email, password);
       await firebase.addUserProfile(role, skills, phone, addresses, bio, name);
-      props.history.replace("/dashboard");
+      props.history.replace("/profile");
     } catch (error) {
       alert(error.message);
       setActiveStep(2);

@@ -22,7 +22,6 @@ const styles = theme => ({
     zIndex: -1,
     [theme.breakpoints.up(400 + theme.spacing(3) * 2)]: {
       borderRadius: 10,
-
     },
   },
   heading: {},
