@@ -3,15 +3,8 @@ import "firebase/auth";
 import "firebase/firebase-firestore";
 import moment from "moment";
 
+//Please include your own firebase configurations
 const config = {
-  apiKey: "AIzaSyD2s3LaOFh4_5QcwJCrVx0sgYV3KUS67ow",
-  authDomain: "jobbit-15765.firebaseapp.com",
-  databaseURL: "https://jobbit-15765.firebaseio.com",
-  projectId: "jobbit-15765",
-  storageBucket: "jobbit-15765.appspot.com",
-  messagingSenderId: "178724327877",
-  appId: "1:178724327877:web:a4a311f0d54ec62460fbac",
-  measurementId: "G-3M4X3W5J2G"
 };
 
 class Firebase {
